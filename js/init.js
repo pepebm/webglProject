@@ -13,7 +13,7 @@ function initPointerLock() {
   var havePointerLock = 'pointerLockElement' in document ||
                         'mozPointerLockElement' in document ||
                         'webkitPointerLockElement' in document;
-                        
+
   if (havePointerLock) {
     var element = document.body;
     var pointerlockchange = function(event) {
@@ -45,7 +45,7 @@ function createScene(canvas) {
                                       10000
                                     );
   scene = new THREE.Scene();
-
+  scene.background = new THREE.Color(0xffffff);
   controls = new THREE.PointerLockControls(camera);
   scene.add(controls.getObject());
 
@@ -59,6 +59,16 @@ function createScene(canvas) {
 
   window.addEventListener('resize', onWindowResize);
 
+}
+
+function createMap(size) {
+  if(!materials.initialized){
+    loadMaterials({
+      floor: "../resources/textures/floor1.jpeg",
+      ceil: "../resources/textures/floor3.jpg",
+      walls: "../resources/textures/floor1.jpeg",
+    });
+  }
 }
 
 function onWindowResize() {
