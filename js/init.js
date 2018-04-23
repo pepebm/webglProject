@@ -2,7 +2,8 @@ var camera,
   scene,
   raycaster,
   renderer,
-  controls;
+  controls,
+  instructions;
 
 function run() {
   requestAnimationFrame(run);
@@ -22,14 +23,21 @@ function initPointerLock() {
         controls.enabled = true;
       } else {
         controls.enabled = false;
+        instructions.style.display = '';
       }
     };
     // Hook pointer lock state change events
     document.addEventListener('pointerlockchange', pointerlockchange, false);
     document.addEventListener('mozpointerlockchange', pointerlockchange, false);
     document.addEventListener('webkitpointerlockchange', pointerlockchange, false);
+    instructions.addEventListener('click', function(event) {
+      instructions.style.display = 'none';
+      // Ask the browser to lock the pointer
+      element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+      element.requestPointerLock();
+    }, false);
   } else {
-    console.log('Your browser doesn\'t seem to support Pointer Lock API');
+    instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
   }
 }
 
@@ -56,8 +64,11 @@ function createScene(canvas) {
   raycaster = new THREE.Raycaster();
 
   renderer.setPixelRatio(window.devicePixelRatio);
+  instructions = document.getElementById('instructions');
 
   window.addEventListener('resize', onWindowResize);
+  document.addEventListener('keydown', onKeyDown, false);
+
 
 }
 
