@@ -13,6 +13,7 @@ function initPointerLock() {
   var havePointerLock = 'pointerLockElement' in document ||
                         'mozPointerLockElement' in document ||
                         'webkitPointerLockElement' in document;
+                        
   if (havePointerLock) {
     var element = document.body;
     var pointerlockchange = function(event) {
@@ -27,9 +28,6 @@ function initPointerLock() {
     document.addEventListener('pointerlockchange', pointerlockchange, false);
     document.addEventListener('mozpointerlockchange', pointerlockchange, false);
     document.addEventListener('webkitpointerlockchange', pointerlockchange, false);
-    document.addEventListener('pointerlockerror', pointerlockerror, false);
-    document.addEventListener('mozpointerlockerror', pointerlockerror, false);
-    document.addEventListener('webkitpointerlockerror', pointerlockerror, false);
   } else {
     console.log('Your browser doesn\'t seem to support Pointer Lock API');
   }
