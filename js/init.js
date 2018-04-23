@@ -50,7 +50,7 @@ function createScene(canvas) {
 
   controls = new THREE.PointerLockControls(camera);
   scene.add(controls.getObject());
-  
+
   var light = new THREE.DirectionalLight(0xffffff, 1);
   light.position.set(1, 1, 1);
   scene.add(light);

@@ -1,4 +1,10 @@
-
+// loadMaterials({
+//   floor: '../resources/textures/floor1.jpeg',
+//   walls: '../resources/textures/floor3.jpg',
+//   ceil: '../resources/textures/floor1.jpeg'
+// });
+//
+// createHallway(scene, 15);
 let materials = {
   initialized: false,
   floor: null,
@@ -16,18 +22,28 @@ function loadMaterials(paths){
   materials.initialized = true;
 }
 
-function createHallway(scene, size, position){
+function createHallway(scene, size, position = [0,0,0]){
   if(materials.initialized){
     let width = 5;
     let height = 10;
     let geometry = new THREE.PlaneGeometry(width, size);
     let plane = new THREE.Mesh(geometry, materials.floor);
     plane.rotation.x = Math.PI / 2;
+    plane.position.set(
+      plane.position.x + position[0],
+      plane.position.y + position[1],
+      plane.position.z + position[2],
+    );
     scene.add(plane);
 
     plane = new THREE.Mesh(geometry, materials.ceil);
     plane.rotation.x = -Math.PI / 2;
     plane.position.y = height;
+    plane.position.set(
+      plane.position.x + position[0],
+      plane.position.y + position[1],
+      plane.position.z + position[2],
+    );
     scene.add(plane);
 
     geometry = new THREE.PlaneGeometry(height, size);
@@ -35,15 +51,24 @@ function createHallway(scene, size, position){
     plane.rotation.x = Math.PI / 2;
     plane.rotation.z = Math.PI / 2;
     plane.position.x = -width / 2;
+    plane.position.set(
+      plane.position.x + position[0],
+      plane.position.y + position[1],
+      plane.position.z + position[2],
+    );
     scene.add(plane);
 
     plane = new THREE.Mesh(geometry, materials.walls);
     plane.rotation.x = Math.PI / 2;
     plane.rotation.z = Math.PI / 2;
     plane.position.x = width / 2;
+    plane.position.set(
+      plane.position.x + position[0],
+      plane.position.y + position[1],
+      plane.position.z + position[2],
+    );
     scene.add(plane);
   } else{
-    console.log("Load materials first!");
-    // alert("Load materials first!");
+    throw new TypeError("Load materials first!");
   }
 }
