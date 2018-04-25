@@ -44,6 +44,7 @@ function createScene(canvas) {
                                       1,
                                       10000
                                     );
+
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xffffff);
   controls = new THREE.PointerLockControls(camera);
@@ -59,16 +60,18 @@ function createScene(canvas) {
 
   window.addEventListener('resize', onWindowResize);
 
+  createMap();
 }
 
-function createMap(size) {
+function createMap() {
   if(!materials.initialized){
     loadMaterials({
       floor: "../resources/textures/floor1.jpeg",
-      ceil: "../resources/textures/floor3.jpg",
-      walls: "../resources/textures/floor1.jpeg",
+      ceil: "../resources/textures/floor1.jpeg",
+      walls: "../resources/textures/floor3.jpg",
     });
   }
+  createHallway(scene, 50);
 }
 
 function onWindowResize() {

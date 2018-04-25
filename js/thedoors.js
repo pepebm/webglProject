@@ -24,50 +24,58 @@ function loadMaterials(paths){
 
 function createHallway(scene, size, position = [0,0,0]){
   if(materials.initialized){
-    let width = 5;
-    let height = 10;
+    let hallwayGroup = new THREE.Object3D;
+    let width = 15;
+    let height = 20;
     let geometry = new THREE.PlaneGeometry(width, size);
     let plane = new THREE.Mesh(geometry, materials.floor);
-    plane.rotation.x = Math.PI / 2;
+    plane.name = "floor";
+    plane.rotation.x = -Math.PI / 2;
     plane.position.set(
       plane.position.x + position[0],
       plane.position.y + position[1],
-      plane.position.z + position[2],
+      plane.position.z + position[2]
     );
-    scene.add(plane);
+    hallwayGroup.add(plane);
 
     plane = new THREE.Mesh(geometry, materials.ceil);
-    plane.rotation.x = -Math.PI / 2;
+    plane.name = "ceil";
+    plane.rotation.x = Math.PI / 2;
     plane.position.y = height;
     plane.position.set(
       plane.position.x + position[0],
       plane.position.y + position[1],
-      plane.position.z + position[2],
+      plane.position.z + position[2]
     );
-    scene.add(plane);
+    hallwayGroup.add(plane);
 
     geometry = new THREE.PlaneGeometry(height, size);
     plane = new THREE.Mesh(geometry, materials.walls);
-    plane.rotation.x = Math.PI / 2;
+    plane.name = "right_wall";
     plane.rotation.z = Math.PI / 2;
-    plane.position.x = -width / 2;
+    plane.rotation.y = -Math.PI / 2;
+    plane.position.x = width / 2;
+    plane.position.y = height / 2;
     plane.position.set(
       plane.position.x + position[0],
       plane.position.y + position[1],
-      plane.position.z + position[2],
+      plane.position.z + position[2]
     );
-    scene.add(plane);
+    hallwayGroup.add(plane);
 
     plane = new THREE.Mesh(geometry, materials.walls);
-    plane.rotation.x = Math.PI / 2;
+    plane.name = "left_wall";
     plane.rotation.z = Math.PI / 2;
-    plane.position.x = width / 2;
+    plane.rotation.y = Math.PI / 2;
+    plane.position.x = -width / 2;
+    plane.position.y = height / 2;
     plane.position.set(
       plane.position.x + position[0],
       plane.position.y + position[1],
-      plane.position.z + position[2],
+      plane.position.z + position[2]
     );
-    scene.add(plane);
+    hallwayGroup.add(plane);
+    scene.add(hallwayGroup);
   } else{
     throw new TypeError("Load materials first!");
   }
