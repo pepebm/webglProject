@@ -70,19 +70,34 @@ function createScene(canvas) {
   window.addEventListener('resize', onWindowResize);
   document.addEventListener('keydown', onKeyDown, false);
 
-
-  createMap();
-}
-
-function createMap() {
-  if(!materials.initialized){
-    loadMaterials({
-      floor: "../resources/textures/floor1.jpeg",
-      ceil: "../resources/textures/floor1.jpeg",
-      walls: "../resources/textures/floor3.jpg",
-    });
-  }
-  createHallway(scene, 50);
+  const drawer = mapDrawerCreator(20,25);
+  let textures = {
+    floor: "../resources/textures/floor1.jpeg",
+    ceil: "../resources/textures/floor1.jpeg",
+    walls: "../resources/textures/floor3.jpg",
+  };
+  drawer.loadMaterials(textures);
+  scene.add(drawer.createHallway({
+    size: 40,
+    position: [0, 0, 0],
+    rotation: 0
+  }));
+  scene.add(drawer.createUnion({
+    position: [0, 0, -20],
+    offset: {
+      x: 0,
+      z: -1
+    },
+    walls: {
+      nz: true,
+      px: true
+    }
+  }));
+  scene.add(drawer.createHallway({
+    size: 40,
+    position: [-20 - drawer.getWidth() / 2, 0, -20 - drawer.getWidth() / 2],
+    rotation: Math.PI / 2
+  }));
 }
 
 function onWindowResize() {
