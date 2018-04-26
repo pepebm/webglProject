@@ -70,33 +70,60 @@ function createScene(canvas) {
   window.addEventListener('resize', onWindowResize);
   document.addEventListener('keydown', onKeyDown, false);
 
-  const drawer = mapDrawerCreator(20,25);
+  createMap();
+}
+
+function createMap() {
   let textures = {
     floor: "../resources/textures/floor1.jpeg",
     ceil: "../resources/textures/floor1.jpeg",
     walls: "../resources/textures/floor3.jpg",
+    //door: "../resources/textures/doors.jpg"
   };
-  drawer.loadMaterials(textures);
-  scene.add(drawer.createHallway({
-    size: 40,
+  mapCreator.loadMaterials(textures);
+  scene.add(mapCreator.createHallway({
     position: [0, 0, 0],
     rotation: 0
   }));
-  scene.add(drawer.createUnion({
-    position: [0, 0, -20],
-    offset: {
-      x: 0,
-      z: -1
-    },
+  scene.add(mapCreator.createUnion({
+    position: [0, 0, -20 - mapCreator.getWidth() / 2],
     walls: {
       nz: true,
       px: true
     }
   }));
-  scene.add(drawer.createHallway({
-    size: 40,
-    position: [-20 - drawer.getWidth() / 2, 0, -20 - drawer.getWidth() / 2],
-    rotation: Math.PI / 2
+  scene.add(mapCreator.createHallway({
+    position: [-20 - mapCreator.getWidth() / 2, 0, -20 - mapCreator.getWidth() / 2],
+    rotation: 1
+  }));
+  scene.add(mapCreator.createUnion({
+    position: [-40 - mapCreator.getWidth(), 0, -20 - mapCreator.getWidth() / 2],
+    walls: {
+      nz: true,
+      nx: true
+    }
+  }));
+  scene.add(mapCreator.createHallway({
+    position: [-40 - mapCreator.getWidth(), 0, 0],
+    rotation: 0
+  }));
+  scene.add(mapCreator.createUnion({
+    position: [-40 - mapCreator.getWidth(), 0, 20 + mapCreator.getWidth() / 2],
+    walls: {
+      pz: true,
+      nx: true
+    }
+  }));
+  scene.add(mapCreator.createHallway({
+    position: [-20 - mapCreator.getWidth() / 2, 0, 20 + mapCreator.getWidth() / 2],
+    rotation: 1
+  }));
+  scene.add(mapCreator.createUnion({
+    position: [0, 0, 20 + mapCreator.getWidth() / 2],
+    walls: {
+      pz: true,
+      px: true
+    }
   }));
 }
 
