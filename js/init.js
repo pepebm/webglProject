@@ -78,7 +78,7 @@ function createMap() {
     floor: "../resources/textures/floor1.jpeg",
     ceil: "../resources/textures/floor1.jpeg",
     walls: "../resources/textures/floor3.jpg",
-    //door: "../resources/textures/doors.jpg"
+    door: "../resources/textures/door.png"
   };
   mapCreator.loadMaterials(textures);
   scene.add(mapCreator.createHallway({
@@ -86,18 +86,18 @@ function createMap() {
     rotation: 0
   }));
   scene.add(mapCreator.createUnion({
-    position: [0, 0, -20 - mapCreator.getWidth() / 2],
+    position: [0, 0, -20 - mapCreator.OFFSET],
     walls: {
       nz: true,
       px: true
     }
   }));
   scene.add(mapCreator.createHallway({
-    position: [-20 - mapCreator.getWidth() / 2, 0, -20 - mapCreator.getWidth() / 2],
+    position: [-20 - mapCreator.OFFSET, 0, -20 - mapCreator.OFFSET],
     rotation: 1
   }));
   scene.add(mapCreator.createUnion({
-    position: [-40 - mapCreator.getWidth(), 0, -20 - mapCreator.getWidth() / 2],
+    position: [-40 - mapCreator.getWidth(), 0, -20 - mapCreator.OFFSET],
     walls: {
       nz: true,
       nx: true
@@ -108,23 +108,27 @@ function createMap() {
     rotation: 0
   }));
   scene.add(mapCreator.createUnion({
-    position: [-40 - mapCreator.getWidth(), 0, 20 + mapCreator.getWidth() / 2],
+    position: [-40 - 2 * mapCreator.OFFSET, 0, 20 + mapCreator.OFFSET],
     walls: {
       pz: true,
       nx: true
     }
   }));
   scene.add(mapCreator.createHallway({
-    position: [-20 - mapCreator.getWidth() / 2, 0, 20 + mapCreator.getWidth() / 2],
+    position: [-20 - mapCreator.OFFSET, 0, 20 + mapCreator.OFFSET],
     rotation: 1
   }));
   scene.add(mapCreator.createUnion({
-    position: [0, 0, 20 + mapCreator.getWidth() / 2],
+    position: [0, 0, 20 + mapCreator.OFFSET],
     walls: {
       pz: true,
       px: true
     }
   }));
+  scene.add(mapCreator.createDoor({
+    position: [-mapCreator.OFFSET, 0, -20 - mapCreator.OFFSET],
+    rotate: 1
+  }))
 }
 
 function onWindowResize() {
