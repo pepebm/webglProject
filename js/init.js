@@ -3,10 +3,22 @@ var camera,
   raycaster,
   renderer,
   controls,
-  instructions;
+  instructions,
+  delta,
+  time,
+  prevTime = performance.now();
 
+var moveForward = false,
+    moveBackward = false,
+    moveRight = false,
+    moveLeft = false,
+    velocity,
+    direction;
 function run() {
   requestAnimationFrame(run);
+  time = performance.now();
+  delta = (time - prevTime) / 1000;
+  handleMovement(delta);
   renderer.render(scene, camera);
 }
 
@@ -67,8 +79,12 @@ function createScene(canvas) {
   renderer.setPixelRatio(window.devicePixelRatio);
   instructions = document.getElementById('instructions');
 
+  velocity = new THREE.Vector3();
+  direction = new THREE.Vector3();
+
   window.addEventListener('resize', onWindowResize);
   document.addEventListener('keydown', onKeyDown, false);
+  document.addEventListener('keyup', onKeyUp, false);
 
   createMap();
 }
