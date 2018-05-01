@@ -71,10 +71,6 @@ function createScene(canvas) {
   controls = new THREE.PointerLockControls(camera);
   scene.add(controls.getObject());
 
-  var light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.set(1, 1, 1);
-  scene.add(light);
-
   raycaster = new THREE.Raycaster();
 
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -97,11 +93,10 @@ function createMap() {
     walls: "../resources/textures/floor3.jpg",
     door: "../resources/textures/door.png"
   };
-  mapCreator.loadMaterials(textures);
-  mapCreator.randomize({
+  mapCreatorObject.loadMaterials(textures);
+  mapCreatorObject.randomize({
     doors_count: 2,
-    door_rand_max: 2, // random from 0 (inclusive) to door_rand_max (exclusive)
-    hallway_size: 60
+    door_rand_max: 2
   });
 }
 
