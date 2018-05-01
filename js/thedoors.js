@@ -1,7 +1,7 @@
 const mapCreator = function() {
-  const HEIGHT = 25;
+  const HEIGHT = 30;
   const WIDTH = 20;
-  const HALLWAY_SIZE = 60;
+  let HALLWAY_SIZE;
   const OFFSET = WIDTH / 2;
   const HALLWAYS = [];
   const UNIONS = []; // NOT NECESSARY
@@ -298,6 +298,7 @@ const mapCreator = function() {
   mapCreatorObject.randomize = (options) => {
     num_doors = options.doors_count;
     door_rand_max = options.door_rand_max;
+    HALLWAY_SIZE = options.hallway_size;
     let walker = walkerCreator();
     walkers.push(walker);
     while(walkers.length > 0){
@@ -308,6 +309,7 @@ const mapCreator = function() {
         }
       }
     }
+    console.log("MAP RANDOMIZED");
   }
   return mapCreatorObject;
 }()
