@@ -1,13 +1,14 @@
-const mapCreator = function() {
+const mapCreatorObject = function() {
   const HEIGHT = 30;
   const WIDTH = 20;
-  let HALLWAY_SIZE;
+  const HALLWAY_SIZE = 60;
   const OFFSET = WIDTH / 2;
   const HALLWAYS = [];
   const UNIONS = []; // NOT NECESSARY
   const DOORS = [];
   let num_doors;
   let door_rand_max;
+  let light_right_side = true;
   const objLoader = new THREE.OBJLoader();
   const walkers = [];
   const materials = {
@@ -19,19 +20,19 @@ const mapCreator = function() {
     //torch: null
   };
 
-  let mapCreatorObject = {
+  let mapCreator = {
     getWidth: () => WIDTH,
     getHeight: () => HEIGHT,
     getSize: () => HALLWAY_SIZE,
     loadMaterials: textures => {
       let map = THREE.ImageUtils.loadTexture(textures.floor);
-      materials.floor = new THREE.MeshBasicMaterial({map});
+      materials.floor = new THREE.MeshPhongMaterial({map});
       map = THREE.ImageUtils.loadTexture(textures.walls);
-      materials.walls = new THREE.MeshBasicMaterial({map, side: THREE.DoubleSide});
+      materials.walls = new THREE.MeshPhongMaterial({map, side: THREE.DoubleSide});
       map = THREE.ImageUtils.loadTexture(textures.ceil);
-      materials.ceil = new THREE.MeshBasicMaterial({map});
+      materials.ceil = new THREE.MeshPhongMaterial({map});
       map = THREE.ImageUtils.loadTexture(textures.door);
-      materials.door = new THREE.MeshBasicMaterial({map, side: THREE.DoubleSide});
+      materials.door = new THREE.MeshPhongMaterial({map, side: THREE.DoubleSide});
       // map = THREE.ImageUtils.loadTexture(textures.torch);
       // materials.torch = new THREE.MeshBasicMaterial({map});
       materials.initialized = true;
@@ -58,6 +59,11 @@ const mapCreator = function() {
         plane.position.x = WIDTH / 2;
         plane.position.y = HEIGHT / 2;
         hallwayGroup.add(plane);
+
+        let light = new THREE.PointLight(0xffdddd, 1, HALLWAY_SIZE + OFFSET / 2);
+        light.position.set((light_right_side ? OFFSET - 3 : 3 - OFFSET), HEIGHT * 2 / 3, 0);
+        light_right_side = !light_right_side;
+        hallwayGroup.add(light);
 
         plane = new THREE.Mesh(geometry, materials.walls);
         plane.name = "left_wall";
@@ -113,7 +119,7 @@ const mapCreator = function() {
 
         return hallwayGroup;
       } else{
-        throw new TypeError("Load materials first!");
+        throw new Error("Load materials first!");
       }
     },
     createUnion: options => {
@@ -171,9 +177,9 @@ const mapCreator = function() {
         UNIONS.push(unionGroup);
         return unionGroup;
       } else{
-        throw new TypeError("Load materials first!");
+        throw new Error("Load materials first!");
       }
-    },
+    }
   }
 
   const rnd = (limSup, limInf, except) => {
@@ -226,7 +232,7 @@ const mapCreator = function() {
       deleteWalker,
       next: () => {
         if (draw_hallway) {
-          let hallway = mapCreatorObject.createHallway({
+          let hallway = mapCreator.createHallway({
             position: pos,
             rotation: facing,
             door: DOORS.length < num_doors && rnd(0, door_rand_max) == 0
@@ -282,7 +288,7 @@ const mapCreator = function() {
               }
             }
           }
-          let union = mapCreatorObject.createUnion({
+          let union = mapCreator.createUnion({
             position: pos,
             walls
           });
@@ -295,10 +301,9 @@ const mapCreator = function() {
     return walker;
   }
 
-  mapCreatorObject.randomize = (options) => {
+  mapCreator.randomize = options => {
     num_doors = options.doors_count;
     door_rand_max = options.door_rand_max;
-    HALLWAY_SIZE = options.hallway_size;
     let walker = walkerCreator();
     walkers.push(walker);
     while(walkers.length > 0){
@@ -311,5 +316,5 @@ const mapCreator = function() {
     }
     console.log("MAP RANDOMIZED");
   }
-  return mapCreatorObject;
+  return mapCreator;
 }()
