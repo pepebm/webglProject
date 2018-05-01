@@ -100,7 +100,7 @@ function createMap() {
   mapCreator.loadMaterials(textures);
   mapCreator.randomize({
     doors_count: 3,
-    door_probability: 2
+    door_rand_max: 2 // random from 0 (inclusive) to door_rand_max (exclusive)
   });
 }
 

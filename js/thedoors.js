@@ -6,14 +6,17 @@ const mapCreator = function() {
   const HALLWAYS = [];
   const UNIONS = []; // NOT NECESSARY
   const DOORS = [];
-  let num_doors, door_probability;
+  let num_doors;
+  let door_rand_max;
+  const objLoader = new THREE.OBJLoader();
   const walkers = [];
   const materials = {
     initialized: false,
     floor: null,
     walls: null,
     ceil: null,
-    door: null
+    door: null,
+    //torch: null
   };
 
   let mapCreatorObject = {
@@ -29,6 +32,8 @@ const mapCreator = function() {
       materials.ceil = new THREE.MeshBasicMaterial({map});
       map = THREE.ImageUtils.loadTexture(textures.door);
       materials.door = new THREE.MeshBasicMaterial({map, side: THREE.DoubleSide});
+      // map = THREE.ImageUtils.loadTexture(textures.torch);
+      // materials.torch = new THREE.MeshBasicMaterial({map});
       materials.initialized = true;
     },
     createHallway: options => {
@@ -84,6 +89,28 @@ const mapCreator = function() {
         hallwayGroup.rotation.y = options.rotation * Math.PI / 2;
 
         HALLWAYS.push(hallwayGroup);
+
+        // objLoader.load(
+        //   "../resources/models/torch.obj",
+        //   function(object) {
+        //     object.traverse( child => {
+        //       if(child instanceof THREE.Mesh){
+        //         child.castShadow = true;
+        //         child.receiveShadow = true;
+        //         child.material.map = materials.torch;
+        //       }
+        //     });
+        //     hallwayGroup.add(object);
+        //   },
+        //   function ( xhr ) {
+        //     console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        //   },
+        //   // called when loading has errors
+        //   function ( error ) {
+        //     console.log( 'An error happened' );
+        //   }
+        // );
+
         return hallwayGroup;
       } else{
         throw new TypeError("Load materials first!");
@@ -202,7 +229,7 @@ const mapCreator = function() {
           let hallway = mapCreatorObject.createHallway({
             position: pos,
             rotation: facing,
-            door: DOORS.length < num_doors && rnd(0, door_probability) == 0
+            door: DOORS.length < num_doors && rnd(0, door_rand_max) == 0
           });
           walk();
           draw_hallway = false;
@@ -210,15 +237,15 @@ const mapCreator = function() {
         } else{
           let walls;
           if(DOORS.length == num_doors){
+            deleteWalker();
             walls = {
               nz: facing == 2 ? false : true,
               pz: facing == 0 ? false : true,
               nx: facing == 3 ? false : true,
               px: facing == 1 ? false : true,
             }
-            deleteWalker();
           } else{
-            let open = rnd(walkers.length == 1 ? 1 : 0, 4);
+            const open = rnd(walkers.length == 1 ? 1 : 0, 4);
             if(open == 0) {
               deleteWalker();
               walls = {
@@ -270,7 +297,7 @@ const mapCreator = function() {
 
   mapCreatorObject.randomize = (options) => {
     num_doors = options.doors_count;
-    door_probability = options.door_probability;
+    door_rand_max = options.door_rand_max;
     let walker = walkerCreator();
     walkers.push(walker);
     while(walkers.length > 0){
