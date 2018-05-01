@@ -65,6 +65,7 @@ function createScene(canvas) {
                                       10000
                                     );
 
+
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xffffff);
   controls = new THREE.PointerLockControls(camera);
@@ -97,54 +98,10 @@ function createMap() {
     door: "../resources/textures/door.png"
   };
   mapCreator.loadMaterials(textures);
-  scene.add(mapCreator.createHallway({
-    position: [0, 0, 0],
-    rotation: 0
-  }));
-  scene.add(mapCreator.createUnion({
-    position: [0, 0, -20 - mapCreator.OFFSET],
-    walls: {
-      nz: true,
-      px: true
-    }
-  }));
-  scene.add(mapCreator.createHallway({
-    position: [-20 - mapCreator.OFFSET, 0, -20 - mapCreator.OFFSET],
-    rotation: 1
-  }));
-  scene.add(mapCreator.createUnion({
-    position: [-40 - mapCreator.getWidth(), 0, -20 - mapCreator.OFFSET],
-    walls: {
-      nz: true,
-      nx: true
-    }
-  }));
-  scene.add(mapCreator.createHallway({
-    position: [-40 - mapCreator.getWidth(), 0, 0],
-    rotation: 0
-  }));
-  scene.add(mapCreator.createUnion({
-    position: [-40 - 2 * mapCreator.OFFSET, 0, 20 + mapCreator.OFFSET],
-    walls: {
-      pz: true,
-      nx: true
-    }
-  }));
-  scene.add(mapCreator.createHallway({
-    position: [-20 - mapCreator.OFFSET, 0, 20 + mapCreator.OFFSET],
-    rotation: 1
-  }));
-  scene.add(mapCreator.createUnion({
-    position: [0, 0, 20 + mapCreator.OFFSET],
-    walls: {
-      pz: true,
-      px: true
-    }
-  }));
-  scene.add(mapCreator.createDoor({
-    position: [-mapCreator.OFFSET, 0, -20 - mapCreator.OFFSET],
-    rotate: 1
-  }))
+  mapCreator.randomize({
+    doors_count: 3,
+    door_probability: 2
+  });
 }
 
 function onWindowResize() {
