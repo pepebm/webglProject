@@ -1,3 +1,10 @@
+let moveForward = false,
+    moveBackward = false,
+    moveRight = false,
+    moveLeft = false,
+    velocity,
+    direction;
+
 // event listener
 function onKeyDown(event) {
   switch (event.keyCode) {
@@ -41,12 +48,12 @@ function onKeyUp(event) {
   }
 }
 
-function handleMovement(delta) {
+function handleMovement(delta, colitions) {
   velocity.x -= velocity.x * 10.0 * delta;
   velocity.z -= velocity.z * 10.0 * delta;
 
-  direction.z = Number(moveForward) - Number(moveBackward);
-  direction.x = Number(moveLeft) - Number(moveRight);
+  direction.z = Number(moveForward && colitions.nz) - Number(moveBackward && colitions.pz);
+  direction.x = Number(moveLeft && colitions.nx) - Number(moveRight && colitions.px);
   direction.normalize(); // this ensures consistent movements in all directions
 
   if (moveForward || moveBackward)

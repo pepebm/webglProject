@@ -1,6 +1,5 @@
 var camera,
   scene,
-  raycaster,
   renderer,
   controls,
   instructions,
@@ -8,17 +7,24 @@ var camera,
   time,
   prevTime = performance.now();
 
-var moveForward = false,
-    moveBackward = false,
-    moveRight = false,
-    moveLeft = false,
-    velocity,
-    direction;
+let rayF,rayB,rayL,rayR;
+
+const raycasterFar = 4;
+
 function run() {
   requestAnimationFrame(run);
+  let colitions = {
+    nz: true,
+    pz: true,
+    nx: true,
+    px: true
+  }
+  if (controls.enabled) {
+    checkRaycasters(colitions);
+  }
   time = performance.now();
   delta = (time - prevTime) / 1000;
-  handleMovement(delta);
+  handleMovement(delta, colitions);
   renderer.render(scene, camera);
 }
 
@@ -71,7 +77,10 @@ function createScene(canvas) {
   controls = new THREE.PointerLockControls(camera);
   scene.add(controls.getObject());
 
-  raycaster = new THREE.Raycaster();
+  rayF = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 0, -1), 0, raycasterFar);
+  rayB = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 0, 1), 0, raycasterFar);
+  rayL = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(-1, 0, 0), 0, raycasterFar);
+  rayR = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(1, 0, 0), 0, raycasterFar);
 
   renderer.setPixelRatio(window.devicePixelRatio);
   instructions = document.getElementById('instructions');
@@ -98,6 +107,57 @@ function createMap() {
     doors_count: 2,
     door_rand_max: 2
   });
+}
+
+function checkRaycasters(colitions) {
+  let direction = controls.getDirection(camera.position);
+  rayF.ray.direction.x = direction.x;
+  rayF.ray.direction.z = direction.z;
+  rayF.ray.origin.copy(controls.getObject().position);
+  rayF.ray.origin.x += raycasterFar * direction.x;
+  rayF.ray.origin.z += raycasterFar * direction.z;
+  let intersections = rayF.intersectObjects(mapCreatorObject.getDoors());
+  if (intersections.length) {
+    colitions.nz = false;
+  }
+  intersections = rayF.intersectObjects(mapCreatorObject.getWalls());
+  if (intersections.length) {
+    colitions.nz = false;
+  }
+  rayB.ray.direction.x = -direction.x;
+  rayB.ray.direction.z = -direction.z;
+  rayB.ray.origin.copy(controls.getObject().position);
+  rayB.ray.origin.x -= raycasterFar * direction.x;
+  rayB.ray.origin.z -= raycasterFar * direction.z;
+  intersections = rayB.intersectObjects(mapCreatorObject.getDoors());
+  if (intersections.length) {
+    colitions.pz = false;
+  }
+  intersections = rayB.intersectObjects(mapCreatorObject.getWalls());
+  if (intersections.length) {
+    colitions.pz = false;
+  }
+  // FIX THIS, LEFT AND RIGHT RAYCASTERS NOT WORKING
+  // rayL.ray.direction.x = direction.z;
+  // rayL.ray.direction.z = direction.x;
+  // rayL.ray.origin.copy(controls.getObject().position);
+  // rayL.ray.origin.x -= raycasterFar * direction.z;
+  // rayL.ray.origin.z += raycasterFar * direction.x;
+  // intersections = rayL.intersectObjects(mapCreatorObject.getDoors()).concat(rayL.intersectObjects(mapCreatorObject.getWalls()));
+  // if (intersections.length) {
+  //   colitions.nx = false;
+  //   console.log("COL L");
+  // }
+  // rayR.ray.direction.x = -direction.z;
+  // rayR.ray.direction.z = -direction.x;
+  // rayR.ray.origin.copy(controls.getObject().position);
+  // rayR.ray.origin.x += raycasterFar * direction.z;
+  // rayR.ray.origin.z -= raycasterFar * direction.x;
+  // intersections = rayR.intersectObjects(mapCreatorObject.getDoors()).concat(rayR.intersectObjects(mapCreatorObject.getWalls()));
+  // if (intersections.length) {
+  //   console.log("COL R");
+  //   colitions.px = false;
+  // }
 }
 
 function onWindowResize() {

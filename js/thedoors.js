@@ -1,15 +1,15 @@
 const mapCreatorObject = function() {
-  const HEIGHT = 30;
-  const WIDTH = 20;
+  const HEIGHT = 40;
+  const WIDTH = 30;
   const HALLWAY_SIZE = 60;
   const OFFSET = WIDTH / 2;
   const HALLWAYS = [];
   const UNIONS = []; // NOT NECESSARY
   const DOORS = [];
+  const WALLS = [];
   let num_doors;
   let door_rand_max;
   let light_right_side = true;
-  const objLoader = new THREE.OBJLoader();
   const walkers = [];
   const materials = {
     initialized: false,
@@ -21,6 +21,8 @@ const mapCreatorObject = function() {
   };
 
   let mapCreator = {
+    getDoors: () => DOORS,
+    getWalls: () => WALLS,
     getWidth: () => WIDTH,
     getHeight: () => HEIGHT,
     getSize: () => HALLWAY_SIZE,
@@ -33,8 +35,6 @@ const mapCreatorObject = function() {
       materials.ceil = new THREE.MeshPhongMaterial({map});
       map = THREE.ImageUtils.loadTexture(textures.door);
       materials.door = new THREE.MeshPhongMaterial({map, side: THREE.DoubleSide});
-      // map = THREE.ImageUtils.loadTexture(textures.torch);
-      // materials.torch = new THREE.MeshBasicMaterial({map});
       materials.initialized = true;
     },
     createHallway: options => {
@@ -58,9 +58,10 @@ const mapCreatorObject = function() {
         plane.rotation.y = -Math.PI / 2;
         plane.position.x = WIDTH / 2;
         plane.position.y = HEIGHT / 2;
+        WALLS.push(plane);
         hallwayGroup.add(plane);
 
-        let light = new THREE.PointLight(0xffdddd, 1, HALLWAY_SIZE + OFFSET / 2);
+        let light = new THREE.PointLight(0xffffff, 1, HALLWAY_SIZE + OFFSET / 2);
         light.position.set((light_right_side ? OFFSET - 3 : 3 - OFFSET), HEIGHT * 2 / 3, 0);
         light_right_side = !light_right_side;
         hallwayGroup.add(light);
@@ -70,6 +71,7 @@ const mapCreatorObject = function() {
         plane.rotation.y = Math.PI / 2;
         plane.position.x = -WIDTH / 2;
         plane.position.y = HEIGHT / 2;
+        WALLS.push(plane);
         hallwayGroup.add(plane);
 
         if(HALLWAYS.length == 0){
@@ -79,6 +81,7 @@ const mapCreatorObject = function() {
           plane.rotation.y = Math.PI;
           plane.position.z = HALLWAY_SIZE / 2;
           plane.position.y = HEIGHT / 2;
+          WALLS.push(plane);
           hallwayGroup.add(plane);
         }
         if(options.door){
@@ -95,28 +98,6 @@ const mapCreatorObject = function() {
         hallwayGroup.rotation.y = options.rotation * Math.PI / 2;
 
         HALLWAYS.push(hallwayGroup);
-
-        // objLoader.load(
-        //   "../resources/models/torch.obj",
-        //   function(object) {
-        //     object.traverse( child => {
-        //       if(child instanceof THREE.Mesh){
-        //         child.castShadow = true;
-        //         child.receiveShadow = true;
-        //         child.material.map = materials.torch;
-        //       }
-        //     });
-        //     hallwayGroup.add(object);
-        //   },
-        //   function ( xhr ) {
-        //     console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        //   },
-        //   // called when loading has errors
-        //   function ( error ) {
-        //     console.log( 'An error happened' );
-        //   }
-        // );
-
         return hallwayGroup;
       } else{
         throw new Error("Load materials first!");
@@ -144,6 +125,7 @@ const mapCreatorObject = function() {
           plane.rotation.y = -Math.PI / 2;
           plane.position.x = WIDTH / 2;
           plane.position.y = HEIGHT / 2;
+          WALLS.push(plane);
           unionGroup.add(plane);
         }
         if(options.walls.nx){
@@ -153,6 +135,7 @@ const mapCreatorObject = function() {
           plane.rotation.y = Math.PI / 2;
           plane.position.x = -WIDTH / 2;
           plane.position.y = HEIGHT / 2;
+          WALLS.push(plane);
           unionGroup.add(plane);
         }
         if(options.walls.pz){
@@ -162,6 +145,7 @@ const mapCreatorObject = function() {
           plane.rotation.y = Math.PI;
           plane.position.z = WIDTH / 2;
           plane.position.y = HEIGHT / 2;
+          WALLS.push(plane);
           unionGroup.add(plane);
         }
         if(options.walls.nz){
@@ -170,6 +154,7 @@ const mapCreatorObject = function() {
           plane.name = "front_wall";
           plane.position.z = -WIDTH / 2;
           plane.position.y = HEIGHT / 2;
+          WALLS.push(plane);
           unionGroup.add(plane);
         }
         unionGroup.position.set(...options.position);
