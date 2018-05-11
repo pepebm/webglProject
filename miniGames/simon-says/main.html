@@ -1,0 +1,62 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<title>Three.js Interaction</title>
+
+	<script src="../../libs/jquery-1.9.1/jquery-1.9.1.js"></script>
+	<script src="../../libs/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+	<script src="../../libs/keyframe.js/keyframe.js"></script>
+	<script src="../../libs/three.js/three.js"></script>
+	<script src="../../libs/requestAnimationFrame/RequestAnimationFrame.js"></script>
+	<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="style.css">
+
+	<script src="fred.js"></script>
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					var canvas = document.getElementById("webglcanvas");
+	        createScene(canvas);
+	        run();
+				}
+		);
+
+		function hasPlayerLost() {
+		  if(playerLost){
+				return true;
+			}
+			return false;
+		}
+	</script>
+
+</head>
+<body>
+	<div class="title">
+		<h3>Fabulous Fred!</h3>
+		<sup class="text-muted">Made by: José Manuel Beauregard Méndez</sup>
+		<sub class="text-muted">In collaboration with: Prof. Octavio Navarro</sub>
+		<p>Level: <span id="lvlNum">0</span> <span id="plus" class="fa fa-plus" style="color:rgb(172, 175, 20)">1</span> </p>
+		<p>Score: <span id="scoreNum">0</span> </p>
+	</div>
+	<div class="controlers">
+		<div class="container">
+			<div class="row">
+				<div class="center-block">
+					<button type="button" name="button" class="btn btn-warning" onclick="initGame()">
+						Restart <span class="fa fa-sync-alt"></span>
+					</button>
+					<button type="button" name="button" class="btn btn-info" onclick="hint()">
+						Hint <span class="fa fa-exclamation-circle"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="container">
+	    <canvas id="webglcanvas"></canvas>
+	</div>
+</body>
+
+</html>

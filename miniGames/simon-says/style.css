@@ -1,0 +1,72 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    border: 0;
+    overflow: hidden;
+    display: block;
+  }
+
+canvas {
+  position: relative;
+  z-index: 0;
+}
+
+.title{
+  position: fixed;
+  z-index: 1;
+  margin-top: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.controlers{
+  position: fixed;
+  z-index: 1;
+  margin-top: 70vh;
+  text-align: center;
+  width: 100%;
+}
+
+.score{
+  position: fixed;
+  z-index: 1;
+  margin-top: 4rem;
+  text-align: center;
+  width: 100%;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*             Animation             */
+
+@keyframes flickerAnimation {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+.animate-flicker {
+   -webkit-animation: flickerAnimation 1s infinite;
+   -moz-animation: flickerAnimation 1s infinite;
+   -o-animation: flickerAnimation 1s infinite;
+   animation: flickerAnimation 1s infinite;
+}

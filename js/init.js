@@ -5,6 +5,7 @@ var camera,
   instructions,
   delta,
   time,
+  miniGameWindow
   prevTime = performance.now();
 
 let rayF,rayB,rayL,rayR;
@@ -21,6 +22,11 @@ function run() {
   }
   if (controls.enabled) {
     checkRaycasters(colitions);
+  }
+  if(miniGameWindow) {
+    if(miniGameWindow.hasPlayerLost()) {
+      miniGameWindow.close();
+    }
   }
   time = performance.now();
   delta = (time - prevTime) / 1000;
@@ -93,6 +99,9 @@ function createScene(canvas) {
   document.addEventListener('keyup', onKeyUp, false);
 
   createMap();
+
+  miniGameWindow = window.open("../miniGames/simon-says/main.html", "Simon Says");
+
 }
 
 function createMap() {
