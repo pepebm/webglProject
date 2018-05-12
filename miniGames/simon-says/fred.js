@@ -64,7 +64,7 @@ function validateMove(idx) {
   } else {
     console.log("Loser. Thanks for playing");
     console.log("You reached level " + lvl);
-    playerLost = true;
+    window.opener.killWindowProcess();
   }
 }
 

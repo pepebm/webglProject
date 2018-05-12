@@ -22,7 +22,10 @@
 	        run();
 				}
 		);
-
+		// Final procees of parent to child window comunication
+		function kill(){
+			window.close();
+		}
 		function hasPlayerLost() {
 		  if(playerLost){
 				return true;
@@ -34,7 +37,7 @@
 </head>
 <body>
 	<div class="title">
-		<h3>Fabulous Fred!</h3>
+		<h3>Simon Says</h3>
 		<sup class="text-muted">Made by: José Manuel Beauregard Méndez</sup>
 		<sub class="text-muted">In collaboration with: Prof. Octavio Navarro</sub>
 		<p>Level: <span id="lvlNum">0</span> <span id="plus" class="fa fa-plus" style="color:rgb(172, 175, 20)">1</span> </p>

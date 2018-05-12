@@ -5,7 +5,7 @@ var camera,
   instructions,
   delta,
   time,
-  miniGameWindow
+  playerInGame = false,
   prevTime = performance.now();
 
 let rayF,rayB,rayL,rayR;
@@ -99,9 +99,6 @@ function createScene(canvas) {
   document.addEventListener('keyup', onKeyUp, false);
 
   createMap();
-
-  miniGameWindow = window.open("../miniGames/simon-says/main.html", "Simon Says");
-
 }
 
 function createMap() {
