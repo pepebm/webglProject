@@ -51,6 +51,9 @@ function validateMove(idx) {
     if(userMove > moves.length - 1) {
       console.log("Next level");
       lvl += 1;
+      if (lvl == 7) {
+        window.opener.killWindowProcess(1);
+      }
       $('#lvlNum').text(lvl);
       $('#plus').addClass('animate-flicker').show();
       userMove = 0;
@@ -64,7 +67,7 @@ function validateMove(idx) {
   } else {
     console.log("Loser. Thanks for playing");
     console.log("You reached level " + lvl);
-    window.opener.killWindowProcess();
+    window.opener.killWindowProcess(0);
   }
 }
 
@@ -234,7 +237,6 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// DEBUG: Si le picas muchas veces en un cubo se queda el color rojo
 function onDocumentMouseDown(event) {
   event.preventDefault();
   var idx;

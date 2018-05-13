@@ -26,8 +26,14 @@
         }
       );
       // call function from miniGames.js
-      function killWindowProcess(){
+      function killWindowProcess(status){
+        if (status == 1) {
+          openDoor();
+        }
         closeWindow();
+      }
+      function playerWon(){
+
       }
     </script>
   </head>

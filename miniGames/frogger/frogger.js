@@ -76,7 +76,7 @@ function checkBounds() {
     playerLost = true;
   }
   if(playerLost){
-    window.opener.killWindowProcess();
+    window.opener.killWindowProcess(0);
   }
 }
 
