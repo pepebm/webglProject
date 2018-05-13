@@ -4,6 +4,7 @@ var camera,
   controls,
   frog,
   y,
+  playerLost = false,
   inWater = false,
   onLog = false;
 
@@ -60,19 +61,22 @@ function checkBounds() {
   if(frog.position.y > y) {
     frog.position.x = 0;
     frog.position.y = initPos;
-    console.log('Frog died because he reached top bound');
+    playerLost = true;
   } else if(frog.position.x < -51) {
     frog.position.x = 0;
     frog.position.y = initPos;
-    console.log('Frog died because he reached left bound');
+    playerLost = true;
   } else if(frog.position.x > 51) {
     frog.position.x = 0;
     frog.position.y = initPos;
-    console.log('Frog died because he reached Right bound');
+    playerLost = true;
   } else if(frog.position.y < initPos) {
     frog.position.x = 0;
     frog.position.y = initPos;
-    console.log('Frog died because he reached Bttom bound');
+    playerLost = true;
+  }
+  if(playerLost){
+    window.opener.killWindowProcess();
   }
 }
 
@@ -102,6 +106,7 @@ function checkColisions() {
   carCols.forEach(carCol => {
     if(frogCol.intersectsBox(carCol)) {
       console.log("You died by hitting a car");
+      window.opener.killWindowProcess();
       frog.position.x = 0;
       frog.position.y = initPos;
       frog.position.z = -100;
@@ -118,6 +123,7 @@ function checkColisions() {
       inW = true;
       if (!float) {
         console.log("Drowned. Try a log next time.");
+        window.opener.killWindowProcess();
         frog.position.x = 0;
         frog.position.y = initPos;
         frog.position.z = -100;

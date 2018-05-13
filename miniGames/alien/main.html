@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Alien Invasion - MiniGame</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="master.css" />
+
+    <script src="alien.js"></script>
+
+		<script src="../../libs/three.js/three.js"></script>
+    <script src="../../libs/three.js/controls/PointerLockControls.js"></script>
+		<script src="../../libs/three.js/loaders/OBJLoader.js"></script>
+    <script src="../../libs/jquery-1.9.1/jquery-1.9.1.js"></script>
+    <script src="../../libs/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(
+                function() {
+
+                    var canvas = document.getElementById("webglcanvas");
+
+                    // create the scene
+                    createScene(canvas);
+
+                    // init();
+                    initPointerLock();
+
+                    run();
+                }
+        );
+				// Final procees of parent to child window comunication
+				function kill(){
+					window.close();
+				}
+    </script>
+
+		<style>
+			#counter{
+				position: absolute;
+				top: -10px;
+				left: 10px;
+				font-size: 2em;
+				color: black;
+			}
+
+			#score{
+				position: absolute;
+				top: 30px;
+				left: 10px;
+				font-size: 2em;
+				color: black;
+			}
+
+			#gunsight{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width:50px;
+				margin-left: -25px;
+				margin-top: -25px;
+			}
+		</style>
+
+    </head>
+
+	<body>
+
+		<div id="blocker">
+
+			<div id="instructions">
+				<span style="font-size:40px">Click to play</span>
+				<br />
+				(W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
+      </div>
+    </div>
+
+    <div id="container">
+        <canvas id="webglcanvas"></canvas>
+				<p id="counter">Aliens Killed: 0</p>
+				<p id="score">Score: 0</p>
+				<img id="gunsight" src="../images/gunsight.png" alt="Gun sight image" />
+    </div>
+
+	</body>
+</html>
