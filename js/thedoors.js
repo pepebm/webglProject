@@ -29,6 +29,7 @@ const mapCreatorObject = function() {
     getWidth: () => WIDTH,
     getHeight: () => HEIGHT,
     getSize: () => HALLWAY_SIZE,
+    getParticlesGroup: () => fireParticlesGroup,
     removeDoor: door => {
       let idx = DOORS.indexOf(door);
       if (idx >= 0) {
@@ -192,7 +193,8 @@ const mapCreatorObject = function() {
       }
     },
     createParticles: () => {
-      for (var i = 0; i < HALLWAYS.children.length; i++) {
+      for (var i = 0; i < HALLWAYS.length; i++) {
+        
         fireEmitter = new SPE.Emitter({
           particleCount: 50,
           maxAge: {
@@ -200,7 +202,7 @@ const mapCreatorObject = function() {
             spread: 0
           },
           position: {
-            value: HALLWAYS.children[i].children[0].position,
+            value: HALLWAYS[i].children[0].position,
             spread: new THREE.Vector3( 10, 10, 0 ),
             spreadClamp: new THREE.Vector3( 0, 0, 0 ),
             distribution: SPE.distributions.BOX,

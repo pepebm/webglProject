@@ -28,6 +28,7 @@ function run() {
   }
   time = performance.now();
   delta = (time - prevTime) / 1000;
+  mapCreatorObject.getParticlesGroup().tick(delta);
   handleMovement(delta, colitions);
   renderer.render(scene, camera);
 }
@@ -103,7 +104,8 @@ function createMap() {
     floor: "../resources/textures/floor1.jpeg",
     ceil: "../resources/textures/floor1.jpeg",
     walls: "../resources/textures/floor3.jpg",
-    door: "../resources/textures/door.png"
+    door: "../resources/textures/door.png",
+    fireParticles: "../resources/textures/sprite-flame2.jpg"
   };
   mapCreatorObject.loadMaterials(textures);
   mapCreatorObject.randomize({
@@ -124,7 +126,6 @@ function checkRaycasters(colitions) {
     colitions.nz = false;
     if (play) {
       play = false;
-      removeDoor();
       createMiniGame(() => {
         mapCreatorObject.removeDoor(intersections[0].object);
         if (mapCreatorObject.getDoors().length == 0) {
