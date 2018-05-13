@@ -7,6 +7,7 @@ const mapCreatorObject = function() {
   const UNIONS = [];
   const DOORS = [];
   const WALLS = [];
+  let fireParticlesGroup;
   let num_doors;
   let door_rand_max;
   let light_right_side = true;
@@ -20,8 +21,14 @@ const mapCreatorObject = function() {
     //torch: null
   };
 
+
+
   let mapCreator = {
     getDoors: () => DOORS,
+    getWalls: () => WALLS,
+    getWidth: () => WIDTH,
+    getHeight: () => HEIGHT,
+    getSize: () => HALLWAY_SIZE,
     removeDoor: door => {
       let idx = DOORS.indexOf(door);
       if (idx >= 0) {
@@ -35,10 +42,6 @@ const mapCreatorObject = function() {
         }
       }
     },
-    getWalls: () => WALLS,
-    getWidth: () => WIDTH,
-    getHeight: () => HEIGHT,
-    getSize: () => HALLWAY_SIZE,
     loadMaterials: textures => {
       let map = THREE.ImageUtils.loadTexture(textures.floor);
       materials.floor = new THREE.MeshPhongMaterial({map});
@@ -48,11 +51,26 @@ const mapCreatorObject = function() {
       materials.ceil = new THREE.MeshPhongMaterial({map});
       map = THREE.ImageUtils.loadTexture(textures.door);
       materials.door = new THREE.MeshPhongMaterial({map, side: THREE.DoubleSide});
+
+      fireParticlesGroup = new SPE.Group({
+          texture: {
+              value: THREE.ImageUtils.loadTexture(textures.fireParticles),
+              frames: new THREE.Vector2( 8, 4 ),
+              loop: 2
+          }
+      });
+
       materials.initialized = true;
     },
     createHallway: options => {
       if(materials.initialized){
         let hallwayGroup = new THREE.Object3D;
+
+        let light = new THREE.PointLight(0xffffff, 1, HALLWAY_SIZE + OFFSET / 2);
+        light.position.set((light_right_side ? OFFSET - 3 : 3 - OFFSET), HEIGHT * 2 / 3, 0);
+        light_right_side = !light_right_side;
+        hallwayGroup.add(light);
+
         let geometry = new THREE.PlaneGeometry(WIDTH, HALLWAY_SIZE);
         let plane = new THREE.Mesh(geometry, materials.floor);
         plane.name = "floor";
@@ -73,11 +91,6 @@ const mapCreatorObject = function() {
         plane.position.y = HEIGHT / 2;
         WALLS.push(plane);
         hallwayGroup.add(plane);
-
-        let light = new THREE.PointLight(0xffffff, 1, HALLWAY_SIZE + OFFSET / 2);
-        light.position.set((light_right_side ? OFFSET - 3 : 3 - OFFSET), HEIGHT * 2 / 3, 0);
-        light_right_side = !light_right_side;
-        hallwayGroup.add(light);
 
         plane = new THREE.Mesh(geometry, materials.walls);
         plane.name = "left_wall";
@@ -177,6 +190,71 @@ const mapCreatorObject = function() {
       } else{
         throw new Error("Load materials first!");
       }
+    },
+    createParticles: () => {
+      for (var i = 0; i < HALLWAYS.children.length; i++) {
+        fireEmitter = new SPE.Emitter({
+          particleCount: 50,
+          maxAge: {
+            value: 2,
+            spread: 0
+          },
+          position: {
+            value: HALLWAYS.children[i].children[0].position,
+            spread: new THREE.Vector3( 10, 10, 0 ),
+            spreadClamp: new THREE.Vector3( 0, 0, 0 ),
+            distribution: SPE.distributions.BOX,
+            randomise: true
+          },
+          radius: {
+            value: 5,
+            spread: 0,
+            scale: new THREE.Vector3( 1, 1, 1 ),
+            spreadClamp: new THREE.Vector3( 2, 2, 2 ),
+          },
+          velocity: {
+            value: new THREE.Vector3( 0, 0, 0 ),
+            spread: new THREE.Vector3( 0, 0, 0 ),
+            // distribution: SPE.distributions.BOX,
+            randomise: false
+          },
+          acceleration: {
+            value: new THREE.Vector3( 0, 0, 0 ),
+            spread: new THREE.Vector3( 0, 0, 0 ),
+            // distribution: SPE.distributions.BOX,
+            randomise: false
+          },
+          drag: {
+            value: 0.5,
+            spread: 0
+          },
+          wiggle: {
+            value: 0,
+            spread: 0
+          },
+          rotation: {
+            axis: new THREE.Vector3( 0, 1, 0 ),
+            axisSpread: new THREE.Vector3( 0, 0, 0 ),
+            angle:  0, // radians
+            angleSpread: 0, // radians
+            static: false,
+            center: new THREE.Vector3( 0, 0, 0 )
+          },
+          size: {
+            value: 70,
+            spread: 0
+          },
+          opacity: {
+            value: 0.50
+          },
+          angle: {
+            value: 0,
+            spread: 0
+          }
+        });
+        fireParticlesGroup.addEmitter(fireEmitter);
+      }
+      scene.add(fireParticlesGroup.mesh);
     }
   }
 
@@ -220,7 +298,6 @@ const mapCreatorObject = function() {
         walkers[i].updateName("walker_" + i);
       }
     }
-
     const walker = {
       walk,
       getName: () => name,
@@ -312,7 +389,7 @@ const mapCreatorObject = function() {
         }
       }
     }
-    console.log("MAP RANDOMIZED");
+    mapCreator.createParticles();
   }
   return mapCreator;
 }()

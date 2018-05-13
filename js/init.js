@@ -124,14 +124,13 @@ function checkRaycasters(colitions) {
     colitions.nz = false;
     if (play) {
       play = false;
-      function removeDoor() {
+      removeDoor();
+      createMiniGame(() => {
         mapCreatorObject.removeDoor(intersections[0].object);
         if (mapCreatorObject.getDoors().length == 0) {
           console.log("YOU WON");
         }
-      }
-      removeDoor();
-      //createMiniGame(removeDoor);
+      });
     }
   }
   intersections = rayF.intersectObjects(mapCreatorObject.getWalls());
