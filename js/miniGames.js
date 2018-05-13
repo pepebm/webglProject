@@ -1,7 +1,7 @@
 // THIS FILE CONTAINS ALL THE LOGIC OF THE MINI GAMES AND WINDOW HANDELING
 // playerInGame variable located at init.js so that we can use it at run()
 const gameArchieve = {
-        len: 3,
+        len: 4,
         frogger: {
           dir: '../miniGames/frogger/main.html',
           hasPlayed: false
@@ -12,6 +12,10 @@ const gameArchieve = {
         },
         alienInvasion: {
           dir: '../miniGames/alien/main.html',
+          hasPlayed: false
+        },
+        runner: {
+          dir: '../miniGames/runner/main.html',
           hasPlayed: false
         }
       };
@@ -26,8 +30,11 @@ function createMiniGame() {
     case 1:
       runSimonSays();
       break;
-    case 1:
+    case 2:
       runAlienInvasion();
+      break;
+    case 3:
+      runRunner();
       break;
     default:
 
@@ -60,4 +67,8 @@ function runSimonSays(){
 
 function runAlienInvasion(){
   openWindow(gameArchieve.alienInvasion.dir, "Alien Invasion - MiniGame");
+}
+
+function runRunner(){
+  openWindow(gameArchieve.runner.dir, "Runner - MiniGame");
 }
