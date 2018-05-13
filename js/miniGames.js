@@ -36,8 +36,6 @@ function createMiniGame() {
     case 3:
       runRunner();
       break;
-    default:
-      break;
   }
 }
 

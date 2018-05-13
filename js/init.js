@@ -41,7 +41,6 @@ function initPointerLock() {
     var element = document.body;
     var pointerlockchange = function(event) {
       if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
-        controlsEnabled = true;
         controls.enabled = true;
       } else {
         controls.enabled = false;
@@ -124,11 +123,11 @@ function checkRaycasters(colitions) {
   if (intersections.length) {
     colitions.nz = false;
     if (play) {
+      //controls.enabled = false;
       play = false;
       let colition = intersections[0];
       createMiniGame();
       mapCreatorObject.removeDoor(colition);
-
     }
   }
   intersections = rayF.intersectObjects(mapCreatorObject.getWalls());
