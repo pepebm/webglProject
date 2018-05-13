@@ -123,11 +123,15 @@ function checkRaycasters(colitions) {
   if (intersections.length) {
     colitions.nz = false;
     if (play) {
-      //controls.enabled = false;
       play = false;
-      let colition = intersections[0];
-      //createMiniGame();
-      mapCreatorObject.removeDoor(colition.object);
+      function removeDoor() {
+        mapCreatorObject.removeDoor(intersections[0].object);
+        if (mapCreatorObject.getDoors().length == 0) {
+          console.log("YOU WON");
+        }
+      }
+      removeDoor();
+      //createMiniGame(removeDoor);
     }
   }
   intersections = rayF.intersectObjects(mapCreatorObject.getWalls());
@@ -147,7 +151,7 @@ function checkRaycasters(colitions) {
   if (intersections.length) {
     colitions.pz = false;
   }
-  // FIX THIS, LEFT AND RIGHT RAYCASTERS NOT WORKING
+  // FIX THIS, LEFT AND RIGHT RAYCASTERS NOT WORKING (USE ROTATE VECTOR FORMULA)
   // rayL.ray.direction.x = direction.z;
   // rayL.ray.direction.z = direction.x;
   // rayL.ray.origin.copy(controls.getObject().position);

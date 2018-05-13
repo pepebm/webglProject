@@ -4,7 +4,7 @@ const mapCreatorObject = function() {
   const HALLWAY_SIZE = 60;
   const OFFSET = WIDTH / 2;
   const HALLWAYS = [];
-  const UNIONS = []; // NOT NECESSARY
+  const UNIONS = [];
   const DOORS = [];
   const WALLS = [];
   let num_doors;
