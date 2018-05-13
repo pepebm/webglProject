@@ -23,10 +23,8 @@ function run() {
   if (controls.enabled) {
     checkRaycasters(colitions);
   }
-  if(miniGameWindow) {
-    if(miniGameWindow.hasPlayerLost()) {
-      miniGameWindow.close();
-    }
+  if(playerInGame) {
+
   }
   time = performance.now();
   delta = (time - prevTime) / 1000;

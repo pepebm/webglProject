@@ -14,7 +14,7 @@ const gameArchieve = {
 
 var miniGameWindow = null;
 function createMiniGame() {
-  let game = Math.floor((Math.random() * numberOfGames));
+  let game = Math.floor((Math.random() * gameArchieve.len));
   switch (game) {
     case 0:
       runFrogger();
@@ -28,6 +28,7 @@ function createMiniGame() {
 }
 
 function openWindow(dir, windowTitle) {
+  let element = document.body;
   miniGameWindow = window.open(dir, windowTitle);
   playerInGame = true;
 }
@@ -43,9 +44,9 @@ function closeWindow() {
 }
 
 function runFrogger(){
-
+  openWindow(gameArchieve.frogger.dir, "Frogger - MiniGame");
 }
 
 function runSimonSays(){
-
+  openWindow(gameArchieve.simonSays.dir, "Frogger - Simon Says");
 }
