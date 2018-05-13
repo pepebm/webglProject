@@ -125,6 +125,13 @@ function checkRaycasters(colitions) {
   let intersections = rayF.intersectObjects(mapCreatorObject.getDoors());
   if (intersections.length) {
     colitions.nz = false;
+    if (play) {
+      play = false;
+      let colition = intersections[0];
+      createMiniGame();
+      mapCreatorObject.removeDoor(colition);
+
+    }
   }
   intersections = rayF.intersectObjects(mapCreatorObject.getWalls());
   if (intersections.length) {

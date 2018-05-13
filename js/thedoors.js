@@ -22,6 +22,10 @@ const mapCreatorObject = function() {
 
   let mapCreator = {
     getDoors: () => DOORS,
+    removeDoor: door => {
+      DOORS.splice(DOORS.indexOf(door), 1);
+      scene.remove(door);
+    },
     getWalls: () => WALLS,
     getWidth: () => WIDTH,
     getHeight: () => HEIGHT,

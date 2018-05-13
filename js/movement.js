@@ -2,6 +2,7 @@ let moveForward = false,
     moveBackward = false,
     moveRight = false,
     moveLeft = false,
+    play = false,
     velocity,
     direction;
 
@@ -23,6 +24,9 @@ function onKeyDown(event) {
     case 39: // right
     case 68: // d
       moveRight = true;
+      break;
+    case 32: // space
+      play = true;
       break;
   }
 }

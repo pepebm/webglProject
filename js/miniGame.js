@@ -23,7 +23,7 @@ function createMiniGame() {
       runSimonSays();
       break;
     default:
-
+      break;
   }
 }
 
