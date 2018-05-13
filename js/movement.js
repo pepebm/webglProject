@@ -25,7 +25,7 @@ function onKeyDown(event) {
     case 68: // d
       moveRight = true;
       break;
-    case 32: // space
+    case 16: // space
       play = true;
       break;
   }

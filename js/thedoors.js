@@ -23,8 +23,17 @@ const mapCreatorObject = function() {
   let mapCreator = {
     getDoors: () => DOORS,
     removeDoor: door => {
-      DOORS.splice(DOORS.indexOf(door), 1);
-      scene.remove(door);
+      let idx = DOORS.indexOf(door);
+      if (idx >= 0) {
+        DOORS.splice(idx, 1);
+        for (var i = 0; i < HALLWAYS.length; i++) {
+          for (var j = 0; j < HALLWAYS[i].children.length; j++) {
+            if(HALLWAYS[i].children[j] == door){
+              HALLWAYS[i].remove(door);
+            }
+          }
+        }
+      }
     },
     getWalls: () => WALLS,
     getWidth: () => WIDTH,

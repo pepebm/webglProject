@@ -126,8 +126,8 @@ function checkRaycasters(colitions) {
       //controls.enabled = false;
       play = false;
       let colition = intersections[0];
-      createMiniGame();
-      mapCreatorObject.removeDoor(colition);
+      //createMiniGame();
+      mapCreatorObject.removeDoor(colition.object);
     }
   }
   intersections = rayF.intersectObjects(mapCreatorObject.getWalls());
