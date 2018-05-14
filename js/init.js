@@ -100,14 +100,15 @@ function createScene(canvas) {
 }
 
 function createMap() {
-  let textures = {
+  let paths = {
     floor: "../resources/textures/floor1.jpeg",
     ceil: "../resources/textures/floor1.jpeg",
     walls: "../resources/textures/floor3.jpg",
     door: "../resources/textures/door.png",
-    fireParticles: "../resources/textures/sprite-flame2.jpg"
+    fireParticles: "../resources/textures/sprite-flame2.jpg",
+    torch: "../resources/obj/Torch/Torch.obj"
   };
-  mapCreatorObject.loadMaterials(textures);
+  mapCreatorObject.loadMaterials(paths);
   mapCreatorObject.randomize({
     doors_count: 2,
     door_rand_max: 2

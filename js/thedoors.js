@@ -7,6 +7,7 @@ const mapCreatorObject = function() {
   const UNIONS = [];
   const DOORS = [];
   const WALLS = [];
+  const objLoader = new THREE.OBJLoader();
   let fireParticlesGroup;
   let num_doors;
   let door_rand_max;
@@ -18,8 +19,8 @@ const mapCreatorObject = function() {
     walls: null,
     ceil: null,
     door: null,
-    //torch: null
   };
+  let torchObjPath;
 
   let mapCreator = {
     getDoors: () => DOORS,
@@ -41,23 +42,25 @@ const mapCreatorObject = function() {
         }
       }
     },
-    loadMaterials: textures => {
-      let map = THREE.ImageUtils.loadTexture(textures.floor);
+    loadMaterials: paths => {
+      let map = THREE.ImageUtils.loadTexture(paths.floor);
       materials.floor = new THREE.MeshPhongMaterial({map});
-      map = THREE.ImageUtils.loadTexture(textures.walls);
+      map = THREE.ImageUtils.loadTexture(paths.walls);
       materials.walls = new THREE.MeshPhongMaterial({map, side: THREE.DoubleSide});
-      map = THREE.ImageUtils.loadTexture(textures.ceil);
+      map = THREE.ImageUtils.loadTexture(paths.ceil);
       materials.ceil = new THREE.MeshPhongMaterial({map});
-      map = THREE.ImageUtils.loadTexture(textures.door);
+      map = THREE.ImageUtils.loadTexture(paths.door);
       materials.door = new THREE.MeshPhongMaterial({map, side: THREE.DoubleSide});
 
       fireParticlesGroup = new SPE.Group({
           texture: {
-              value: THREE.ImageUtils.loadTexture(textures.fireParticles),
+              value: THREE.ImageUtils.loadTexture(paths.fireParticles),
               frames: new THREE.Vector2( 8, 4 ),
               loop: 2
           }
       });
+
+      torchObjPath = paths.torch;
 
       materials.initialized = true;
     },
@@ -118,6 +121,29 @@ const mapCreatorObject = function() {
           hallwayGroup.add(door);
           DOORS.push(door);
         }
+
+        objLoader.load(
+          torchObjPath,
+          function(object) {
+            object.traverse( function(child){
+                if(child instanceof THREE.Mesh){
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+                object.position.copy(light.position);
+                object.position.y = HEIGHT / 2;
+                console.log(options.rotation);
+                if (object.position.x < 0 || object.position.z < 0) {
+                  object.rotation.y = Math.PI;
+                }
+                hallwayGroup.add(object);
+            });
+          },
+          null,
+          error => {
+            throw new Error('An error happened loading torches objs')
+          }
+        );
 
         hallwayGroup.position.set(...options.position);
         hallwayGroup.rotation.y = options.rotation * Math.PI / 2;
