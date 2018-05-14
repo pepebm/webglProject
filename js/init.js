@@ -126,12 +126,13 @@ function checkRaycasters(colitions) {
     colitions.nz = false;
     if (play) {
       play = false;
-      createMiniGame(() => {
-        mapCreatorObject.removeDoor(intersections[0].object);
+      function removeDoor(object) {
+        mapCreatorObject.removeDoor(object);
         if (mapCreatorObject.getDoors().length == 0) {
           console.log("YOU WON");
         }
-      });
+      }
+      createMiniGame(removeDoor.bind(undefined, intersections[0].object));
     }
   }
   intersections = rayF.intersectObjects(mapCreatorObject.getWalls());
