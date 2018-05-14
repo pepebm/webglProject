@@ -194,7 +194,7 @@ const mapCreatorObject = function() {
     },
     createParticles: () => {
       for (var i = 0; i < HALLWAYS.length; i++) {
-        
+
         fireEmitter = new SPE.Emitter({
           particleCount: 50,
           maxAge: {
@@ -202,14 +202,18 @@ const mapCreatorObject = function() {
             spread: 0
           },
           position: {
-            value: HALLWAYS[i].children[0].position,
-            spread: new THREE.Vector3( 10, 10, 0 ),
+            value: new THREE.Vector3(
+              HALLWAYS[i].position.x + (Math.cos(HALLWAYS[i].rotation.y) * HALLWAYS[i].children[0].position.x - Math.sin(HALLWAYS[i].rotation.y) * HALLWAYS[i].children[0].position.z),
+              HEIGHT * 3 / 4,
+              HALLWAYS[i].position.z - (Math.sin(HALLWAYS[i].rotation.y) * HALLWAYS[i].children[0].position.x + Math.cos(HALLWAYS[i].rotation.y) * HALLWAYS[i].children[0].position.z)
+            ),
+            spread: new THREE.Vector3( 0, 5, 0 ),
             spreadClamp: new THREE.Vector3( 0, 0, 0 ),
             distribution: SPE.distributions.BOX,
             randomise: true
           },
           radius: {
-            value: 5,
+            value: 3,
             spread: 0,
             scale: new THREE.Vector3( 1, 1, 1 ),
             spreadClamp: new THREE.Vector3( 2, 2, 2 ),
@@ -243,7 +247,7 @@ const mapCreatorObject = function() {
             center: new THREE.Vector3( 0, 0, 0 )
           },
           size: {
-            value: 70,
+            value: 20,
             spread: 0
           },
           opacity: {
