@@ -25,7 +25,7 @@ var canJump = false;
 var prevTime = performance.now();
 var velocity, direction;
 
-var floorUrl = "../images/moon_1024.jpg";
+var floorUrl = "./images/moon_1024.jpg";
 
 function initPointerLock() {
   var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
@@ -310,9 +310,9 @@ function createBullet() {
 
 function createAlien(position, scale) {
   if(!objLoader) objLoader = new THREE.OBJLoader();
-  objLoader.load("../models/SpaceInvader/SpaceInvaderss.obj",
+  objLoader.load("./models/SpaceInvader/SpaceInvaderss.obj",
     function(object) {
-      if(!spaceInvaderTexture) spaceInvaderTexture = new THREE.TextureLoader().load("../models/SpaceInvader/SpaceInvaderss.png");
+      if(!spaceInvaderTexture) spaceInvaderTexture = new THREE.TextureLoader().load("./models/SpaceInvader/SpaceInvaderss.png");
       object.traverse( function(child){
         if(child instanceof THREE.Mesh){
           child.castShadow = true;

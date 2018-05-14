@@ -21,8 +21,6 @@ const mapCreatorObject = function() {
     //torch: null
   };
 
-
-
   let mapCreator = {
     getDoors: () => DOORS,
     getWalls: () => WALLS,
@@ -194,7 +192,6 @@ const mapCreatorObject = function() {
     },
     createParticles: () => {
       for (var i = 0; i < HALLWAYS.length; i++) {
-
         fireEmitter = new SPE.Emitter({
           particleCount: 50,
           maxAge: {
