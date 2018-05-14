@@ -46,7 +46,6 @@ function createMiniGame(onWinFunc) {
 }
 
 function openWindow(dir, windowTitle) {
-  let element = document.body;
   miniGameWindow = window.open(dir, windowTitle);
   playerInGame = true;
 }
@@ -66,7 +65,8 @@ function openDoor(){
     console.log("No function recieved creating the minigame");
     return;
   }
-  onWinFunction();
+  console.log(onWinFunction);
+  //onWinFunction();
 }
 
 function runFrogger(){

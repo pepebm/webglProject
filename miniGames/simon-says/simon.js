@@ -51,7 +51,7 @@ function validateMove(idx) {
     if(userMove > moves.length - 1) {
       console.log("Next level");
       lvl += 1;
-      if (lvl == 7) {
+      if (lvl == 1) {
         window.opener.killWindowProcess(1);
       }
       $('#lvlNum').text(lvl);

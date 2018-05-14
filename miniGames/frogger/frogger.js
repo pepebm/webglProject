@@ -27,7 +27,8 @@ var blocker,
   time;
 
 var initPos = -60,
-    frogSteps = 10;
+    frogSteps = 10,
+    frogLife = 4;
 
 var grassTextureUrl = './images/grass.jpg',
     roadTextureUrl = './images/road.jpg',
@@ -57,26 +58,50 @@ function onKeyDown(event) {
   }
 }
 
+function renderLifes() {
+  switch (frogLife) {
+    case 3:
+      $('#heart_3').hide();
+      break;
+    case 2:
+      $('#heart_2').hide();
+      break;
+    case 1:
+      $('#heart_1').hide();
+      break;
+  }
+}
+
+
+
 function checkBounds() {
   if(frog.position.y > y) {
     frog.position.x = 0;
     frog.position.y = initPos;
-    playerLost = true;
+    frogLife -= 1;
+    renderLifes();
   } else if(frog.position.x < -51) {
     frog.position.x = 0;
     frog.position.y = initPos;
-    playerLost = true;
+    frogLife -= 1;
+    renderLifes();
   } else if(frog.position.x > 51) {
     frog.position.x = 0;
     frog.position.y = initPos;
-    playerLost = true;
+    frogLife -= 1;
+    renderLifes();
   } else if(frog.position.y < initPos) {
     frog.position.x = 0;
     frog.position.y = initPos;
-    playerLost = true;
-  }
-  if(playerLost){
-    window.opener.killWindowProcess(0);
+    frogLife -= 1;
+    renderLifes();
+  } else if(frog.position.y == 50 && frog.position.x >= -16 && frog.position.x <= 12){
+    window.opener.killWindowProcess(1);
+  } else if (frog.position.y == 50 && (frog.position.x <= -16 || frog.position.x >= 12)) {
+    frog.position.x = 0;
+    frog.position.y = initPos;
+    frogLife -= 1;
+    renderLifes();
   }
 }
 
@@ -88,6 +113,13 @@ function run() {
   moveCars();
   moveLogs();
   checkColisions();
+  if (frogLife == 0) {
+    try {
+      window.opener.killWindowProcess(0);
+    } catch (e) {
+      window.close();
+    }
+  }
 }
 
 function updateColisions() {
@@ -106,7 +138,8 @@ function checkColisions() {
   carCols.forEach(carCol => {
     if(frogCol.intersectsBox(carCol)) {
       console.log("You died by hitting a car");
-      window.opener.killWindowProcess();
+      frogLife -= 1;
+      renderLifes();
       frog.position.x = 0;
       frog.position.y = initPos;
       frog.position.z = -100;
@@ -123,7 +156,8 @@ function checkColisions() {
       inW = true;
       if (!float) {
         console.log("Drowned. Try a log next time.");
-        window.opener.killWindowProcess();
+        frogLife -= 1;
+        renderLifes();
         frog.position.x = 0;
         frog.position.y = initPos;
         frog.position.z = -100;
@@ -147,7 +181,7 @@ function createScene(canvas) {
   camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
   scene = new THREE.Scene();
   // scene.background =  createTexture(grassTextureUrl);
-  scene.background = new THREE.Color(0x748e10);
+  scene.background = new THREE.Color(0xd5ccd0);
 
   // A light source positioned directly above the scene, with color fading from the sky color to the ground color.
   // HemisphereLight( skyColor, groundColor, intensity )
