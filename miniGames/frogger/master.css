@@ -16,3 +16,17 @@ body {
 img {
     position: absolute;
 }
+
+.lifes{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.cont{
+  margin-right: 3rem;
+}
+
+.notVisible{
+  display: none;
+}
