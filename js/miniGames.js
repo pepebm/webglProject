@@ -65,7 +65,6 @@ function openDoor(){
     console.log("No function recieved creating the minigame");
     return;
   }
-  console.log(onWinFunction);
   onWinFunction();
 }
 

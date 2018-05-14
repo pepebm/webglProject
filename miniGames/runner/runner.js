@@ -1,3 +1,7 @@
+/*
+	Code made by: Juwal Bose
+	Link: https://gamedevelopment.tutsplus.com/tutorials/creating-a-simple-3d-endless-runner-game-using-three-js--cms-29157
+*/
 var camera;
 var scene;
 var renderer;
@@ -54,8 +58,6 @@ function createScene(canvas){
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setSize( window.innerWidth, window.innerHeight );
 
-	//stats = new Stats();
-	//dom.appendChild(stats.dom);
 	createTreesPool();
 	addWorld();
 	addHero();
@@ -64,16 +66,6 @@ function createScene(canvas){
 
 	camera.position.z = 6.5;
 	camera.position.y = 2.5;
-	/*orbitControl = new THREE.OrbitControls( camera, renderer.domElement );//helper to rotate around in scene
-	orbitControl.addEventListener( 'change', render );
-	orbitControl.noKeys = true;
-	orbitControl.noPan = true;
-	orbitControl.enableZoom = false;
-	orbitControl.minPolarAngle = 1.1;
-	orbitControl.maxPolarAngle = 1.1;
-	orbitControl.minAzimuthAngle = -0.2;
-	orbitControl.maxAzimuthAngle = 0.2;
-	*/
 	window.addEventListener('resize', onWindowResize, false);//resize callback
 
 	document.onkeydown = handleKeyDown;
@@ -367,6 +359,9 @@ function run(){
 			scoreText.innerHTML=score.toString();
 		}
     }
+		if (score == 15) {
+			window.opener.killWindowProcess(1);
+		}
     doTreeLogic();
     doExplosionLogic();
     render();
@@ -384,6 +379,7 @@ function doTreeLogic(){
 		}else{//check collision
 			if(treePos.distanceTo(heroSphere.position)<=0.6){
 				console.log("hit");
+				window.opener.killWindowProcess(0);
 				hasCollided=true;
 				explode();
 			}
@@ -397,6 +393,8 @@ function doTreeLogic(){
 		treesPool.push(oneTree);
 		oneTree.visible=false;
 		console.log("remove tree");
+		window.opener.killWindowProcess(0);
+
 	});
 }
 function doExplosionLogic(){
@@ -429,8 +427,7 @@ function render(){
   renderer.render(scene, camera);//draw
 }
 function gameOver () {
-  //cancelAnimationFrame( globalRenderID );
-  //window.clearInterval( powerupSpawnIntervalID );
+  window.opener.killWindowProcess(0);
 }
 function onWindowResize() {
 	//resize & align
