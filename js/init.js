@@ -9,27 +9,24 @@ var camera,
   prevTime = performance.now();
 
 let rayF,rayB,rayL,rayR;
-
+let currentPos = null;
 const raycasterFar = 4;
 
 function run() {
   requestAnimationFrame(run);
-  let colitions = {
-    nz: true,
-    pz: true,
-    nx: true,
-    px: true
-  }
-  if (controls.enabled) {
-    checkRaycasters(colitions);
-  }
-  if(playerInGame) {
-
-  }
   time = performance.now();
   delta = (time - prevTime) / 1000;
-  mapCreatorObject.getParticlesGroup().tick(delta);
-  handleMovement(delta, colitions);
+  if (controls.enabled) {
+    let colitions = {
+      nz: true,
+      pz: true,
+      nx: true,
+      px: true
+    }
+    checkRaycasters(colitions);
+    handleMovement(delta, colitions);
+    mapCreatorObject.getParticlesGroup().tick(delta);
+  }
   renderer.render(scene, camera);
 }
 
@@ -43,8 +40,17 @@ function initPointerLock() {
     var pointerlockchange = function(event) {
       if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
         controls.enabled = true;
+        if (currentPos != null) {
+          scene.visible = false;
+          scene.background.setRGB(0,0,0);
+          setTimeout(() => {
+            controls.getObject().position.copy(currentPos);
+            scene.visible = true;
+          }, 50);
+        }
       } else {
         controls.enabled = false;
+        currentPos = controls.getObject().position.clone();
         instructions.style.display = '';
       }
     };

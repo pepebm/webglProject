@@ -122,28 +122,28 @@ const mapCreatorObject = function() {
           DOORS.push(door);
         }
 
-        objLoader.load(
-          torchObjPath,
-          function(object) {
-            object.traverse( function(child){
-                if(child instanceof THREE.Mesh){
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                }
-                object.position.copy(light.position);
-                object.position.y = HEIGHT / 2;
-                console.log(options.rotation);
-                if (object.position.x < 0 || object.position.z < 0) {
-                  object.rotation.y = Math.PI;
-                }
-                hallwayGroup.add(object);
-            });
-          },
-          null,
-          error => {
-            throw new Error('An error happened loading torches objs')
-          }
-        );
+        // objLoader.load(
+        //   torchObjPath,
+        //   function(object) {
+        //     object.traverse( function(child){
+        //         if(child instanceof THREE.Mesh){
+        //             child.castShadow = true;
+        //             child.receiveShadow = true;
+        //         }
+        //         object.position.copy(light.position);
+        //         object.position.y = HEIGHT / 2;
+        //         console.log(options.rotation);
+        //         if (object.position.x < 0 || object.position.z < 0) {
+        //           object.rotation.y = Math.PI;
+        //         }
+        //         hallwayGroup.add(object);
+        //     });
+        //   },
+        //   null,
+        //   error => {
+        //     throw new Error('An error happened loading torches objs')
+        //   }
+        // );
 
         hallwayGroup.position.set(...options.position);
         hallwayGroup.rotation.y = options.rotation * Math.PI / 2;

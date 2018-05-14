@@ -66,7 +66,7 @@ function openDoor(){
     return;
   }
   console.log(onWinFunction);
-  //onWinFunction();
+  onWinFunction();
 }
 
 function runFrogger(){
