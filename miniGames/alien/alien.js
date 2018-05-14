@@ -24,6 +24,7 @@ var canJump = false;
 
 var prevTime = performance.now();
 var velocity, direction;
+var timeleft = 45;
 
 var floorUrl = "./images/moon_1024.jpg";
 
@@ -60,6 +61,9 @@ function initPointerLock() {
       // Ask the browser to lock the pointer
       element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
       element.requestPointerLock();
+      if (timeleft == 45) {
+        startTimer();
+      }
     }, false);
   } else {
     instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
@@ -187,6 +191,7 @@ function createScene(canvas) {
       createAlien([px, py, pz], s);
     }
   }, 1500);
+
 }
 
 function onWindowResize() {
@@ -289,10 +294,17 @@ function run() {
 
       }
       else objects[i].translateZ(delta * 2 * (kills + 1));
-      if(kills >= 30 || score >= 500){
+      if(kills >= 12){
         objects[i].rotateY(delta * Math.PI)
       }
     }
+  }
+
+  if (kills == 15) {
+    window.opener.killWindowProcess(1);
+  }
+  if (timeleft == 0){
+    window.opener.killWindowProcess(0);
   }
 }
 
@@ -306,6 +318,15 @@ function createBullet() {
   bulletRaycaster.ray.origin.copy(controls.getObject().position)
   bulletRaycaster.ray.direction.copy(controls.getDirection(camera.position));
   bulletsRaycasters.push(bulletRaycaster);
+}
+
+function startTimer(){
+  var downloadTimer = setInterval(function(){
+    timeleft--;
+    document.getElementById("time").textContent = timeleft;
+    if(timeleft <= 0)
+       clearInterval(downloadTimer);
+  }, 1000);
 }
 
 function createAlien(position, scale) {

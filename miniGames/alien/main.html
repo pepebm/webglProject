@@ -52,6 +52,14 @@
 				color: black;
 			}
 
+			#time-tag{
+				position: absolute;
+				top: 70px;
+				left: 10px;
+				font-size: 2em;
+				color: black;
+			}
+
 			#gunsight{
 				position: absolute;
 				top: 50%;
@@ -71,7 +79,8 @@
 			<div id="instructions">
 				<span style="font-size:40px">Click to play</span>
 				<br />
-				(W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
+				(W, A, S, D = Move, SPACE = Jump, MOUSE = Look around, Left Shift = Shoot)<br/>
+				You have 45 seconds to kill <b>15</b> aliens
       </div>
     </div>
 
@@ -79,8 +88,8 @@
         <canvas id="webglcanvas"></canvas>
 				<p id="counter">Aliens Killed: 0</p>
 				<p id="score">Score: 0</p>
+				<p id="time-tag">Time left: <span id="time">45</span> s</p>
 				<img id="gunsight" src="./images/gunsight.png" alt="Gun sight image" />
     </div>
-
 	</body>
 </html>
