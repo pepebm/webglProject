@@ -5,15 +5,12 @@
 	<title>Three.js Interaction</title>
 
 	<script src="../../libs/jquery-1.9.1/jquery-1.9.1.js"></script>
-	<script src="../../libs/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script>
 	<script src="../../libs/keyframe.js/keyframe.js"></script>
 	<script src="../../libs/three.js/three.js"></script>
 	<script src="../../libs/requestAnimationFrame/RequestAnimationFrame.js"></script>
 	<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="style.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
 	<script src="simon.js"></script>
 	<script type="text/javascript">
 		$(document).ready(
@@ -21,19 +18,11 @@
 					var canvas = document.getElementById("webglcanvas");
 	        createScene(canvas);
 	        run();
-					$('myModal').modal('show');
-
 				}
 		);
 		// Final procees of parent to child window comunication
 		function kill(){
 			window.close();
-		}
-		function hasPlayerLost() {
-		  if(playerLost){
-				return true;
-			}
-			return false;
 		}
 	</script>
 
@@ -41,8 +30,8 @@
 <body>
 	<div class="title">
 		<h3>Simon Says</h3>
-		<sup class="text-muted">Made by: José Manuel Beauregard Méndez</sup>
-		<sub class="text-muted">In collaboration with: Prof. Octavio Navarro</sub>
+		<sup class="text-muted">This is a memory game, click in the boxes</sup>
+		<sub class="text-muted">in the same sequence, get to level 7 to pass</sub>
 		<p>Level: <span id="lvlNum">0</span> <span id="plus" class="fa fa-plus" style="color:rgb(172, 175, 20)">1</span> </p>
 		<p>Score: <span id="scoreNum">0</span> </p>
 	</div>
@@ -50,9 +39,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="center-block">
-					<button type="button" name="button" class="btn btn-warning" onclick="initGame()">
-						Restart <span class="fa fa-sync-alt"></span>
-					</button>
 					<button type="button" name="button" class="btn btn-info" onclick="hint()">
 						Hint <span class="fa fa-exclamation-circle"></span>
 					</button>

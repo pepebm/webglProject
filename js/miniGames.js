@@ -1,7 +1,7 @@
 // THIS FILE CONTAINS ALL THE LOGIC OF THE MINI GAMES AND WINDOW HANDELING
 // playerInGame variable located at init.js so that we can use it at run()
 const gameArchieve = {
-        len: 4,
+        len: 3,
         frogger: {
           dir: '../miniGames/frogger/main.html',
           hasPlayed: false
@@ -13,10 +13,6 @@ const gameArchieve = {
         alienInvasion: {
           dir: '../miniGames/alien/main.html',
           hasPlayed: false
-        },
-        runner: {
-          dir: '../miniGames/runner/main.html',
-          hasPlayed: false
         }
       };
 var miniGameWindow = null,
@@ -26,8 +22,36 @@ function createMiniGame(onWinFunc) {
   onWinFunction = onWinFunc;
   // only one game at a time
   if(miniGameWindow == null){
-    //let game = Math.floor((Math.random() * gameArchieve.len));
-    let game = 1;
+    let game = Math.floor((Math.random() * (gameArchieve.len + 1)));
+    switch (game) {
+      case 0:
+        if (gameArchieve.frogger.hasPlayed) {
+          if (!gameArchieve.simonSays.hasPlayed) {
+            game = 1;
+          }else if (!gameArchieve.alienInvasion.hasPlayed) {
+            game = 2;
+          }
+        }
+        break;
+      case 1:
+        if (gameArchieve.simonSays.hasPlayed) {
+          if (!gameArchieve.frogger.hasPlayed) {
+            game = 0;
+          }else if (!gameArchieve.alienInvasion.hasPlayed) {
+            game = 2;
+          }
+        }
+        break;
+      case 2:
+        if (gameArchieve.alienInvasion.hasPlayed) {
+          if (!gameArchieve.simonSays.hasPlayed) {
+            game = 1;
+          }else if (!gameArchieve.frogger.hasPlayed) {
+            game = 0;
+          }
+        }
+        break;
+    }
     switch (game) {
       case 0:
         runFrogger();
@@ -37,9 +61,6 @@ function createMiniGame(onWinFunc) {
         break;
       case 2:
         runAlienInvasion();
-        break;
-      case 3:
-        runRunner();
         break;
     }
   }
@@ -57,7 +78,7 @@ function closeWindow(status) {
   }
   miniGameWindow.kill();
   miniGameWindow = null;
-  playerInGame = false;
+  playerInGame = null;
 }
 
 function openDoor(){
@@ -82,11 +103,5 @@ function runSimonSays(){
 function runAlienInvasion(){
   openWindow(gameArchieve.alienInvasion.dir, "Alien Invasion - MiniGame");
   gameArchieve.alienInvasion.hasPlayed = true;
-
-}
-
-function runRunner(){
-  openWindow(gameArchieve.runner.dir, "Runner - MiniGame");
-  gameArchieve.runner.hasPlayed = true;
 
 }

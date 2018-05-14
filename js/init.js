@@ -46,7 +46,8 @@ function initPointerLock() {
           setTimeout(() => {
             controls.getObject().position.copy(currentPos);
             scene.visible = true;
-          }, 50);
+            scene.background.setRGB(1,1,1);
+          }, 100);
         }
       } else {
         controls.enabled = false;
@@ -138,6 +139,8 @@ function checkRaycasters(colitions) {
         mapCreatorObject.removeDoor(object);
         if (mapCreatorObject.getDoors().length == 0) {
           console.log("YOU WON");
+          $('#game').css('display', 'none');
+          $('#winner').css('display', 'block');
         }
       }
       createMiniGame(removeDoor.bind(undefined, intersections[0].object));
