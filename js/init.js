@@ -50,8 +50,8 @@ function initPointerLock() {
         }
       } else {
         controls.enabled = false;
-        currentPos = controls.getObject().position.clone();
         instructions.style.display = '';
+        currentPos = controls.getObject().position.clone();
       }
     };
     // Hook pointer lock state change events
@@ -75,11 +75,12 @@ function createScene(canvas) {
   // Set the viewport size
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  camera = new THREE.PerspectiveCamera(70,
-                                      window.innerWidth / window.innerHeight,
-                                      1,
-                                      10000
-                                    );
+  camera = new THREE.PerspectiveCamera(
+    70,
+    window.innerWidth / window.innerHeight,
+    1,
+    10000
+  );
 
 
   scene = new THREE.Scene();
