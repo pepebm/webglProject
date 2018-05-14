@@ -4,6 +4,7 @@ from livereload import Server
 server = Server()
 
 server.watch('js/*')
+server.watch('miniGames/*')
 server.watch('css/*')
 server.watch('resources/*')
 server.watch('index.html')
